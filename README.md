@@ -1,1 +1,1 @@
-# pps-tests
+# Posterior Predictive Tests for Bayesian Phylogenetics
