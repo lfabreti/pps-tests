@@ -1,9 +1,10 @@
 Posterior Predictive Tests for Bayesian Phylogenetics
 ==========================
 
-This is the repository for the scripts used in the paper `The Expected Behavior of Posterior Predictive Tests May Be Unexpected`.
+Repository for the scripts used in the paper *The Expected Behavior of Posterior Predictive Tests May Be Unexpected*.
 
-We prepared a brief example of the Posterior Predictive Simulation test. 
+This is a brief example of the Posterior Predictive Simulation test. 
+
 The number of simulation settings, MCMC iterations and replicates were reduced to allow the full pipeline to run in a regular computer within reasonable time. Note that the plots produced by this tutorial should not be representative of the full study.
 
 To reproduce the method, follow the steps in this tutorial.
@@ -13,12 +14,14 @@ Installing RevBayes
 =================
 
 The functions and methods used in this tutorial are implemented in the software RevBayes.
+
 To install: [`RevBayes`](https://revbayes.github.io/).
 
 Simulating datasets
 =================
 
 We will simulate 10 alignments under the Jukes-Cantor model, with 16 taxa, 100 sites and a mean branch length draw from an exponential distribution with rate 10.
+
 From the `scripts` folder, run the script `simulate_JC.Rev` with the command:
 
 	rb simulate_JC.Rev
@@ -33,15 +36,20 @@ The full analysis pipeline is in the script `pps_full_analysis.Rev`. It can be r
 	rb pps_full_analysis.Rev
 
 This analysis icludes both data-based and inference-based posterior predictive simulations.
+
 The first step in the pipeline is to run the empirical MCMC on the simulated datasets. After that, we perform the posterior predictive data simulation, followed by the posterior predictive MCMC.
+
 These two steps should be time consuming.
+
 When these steps are finished, we calculate the summary statistics for the data and the inference output.
+
 The last step is to calculate the p-values for each summary statistic.
 
 Plotting the Histograms
 =================
 
 To plot the histograms for the data-based analysis, run the R script `pValuePlots_data.R`. 
+
 For the inference-based analysis, use the script `pValuePlots_inference.R`.
 
 Different settings for the analysis
@@ -62,10 +70,5 @@ In this small tutorial we taught the basic steps to run the full analysis. Now w
 3. Changing the MCMC settings for the empirical MCMC
 
 	The changes on the MCMC settings should be done on the script `pps_MCMC_Simulation.Rev`. 
-	
-
-
-
-	   
 
 
