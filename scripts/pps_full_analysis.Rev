@@ -1,0 +1,79 @@
+BL_PRIOR = 10
+numSims = 10
+
+for (i in 1:numSims) {
+
+	inFile = "../data/JC_16_taxa_nSites_100_bl_0.1/simData_" + i + ".nex"	
+
+
+	## EMPIRICAL MCMC
+
+	analysis_name = "pps"
+	data <- readDiscreteCharacterData(inFile)
+	model_name = "JC"
+	model_file_name = "pps_"+model_name+"_Model.Rev"
+	source("pps_MCMC_Simulation.Rev")
+	clear(phylogeny)
+
+
+	## POSTERIOR PREDICTIVE DATA SIMULATION
+
+	#analysis_name = "pps"
+	#data <- readDiscreteCharacterData(inFile)
+	#model_name = "JC"
+	#model_file_name = "pps_"+model_name+"_Model.Rev"
+	source("pps_Simulation.Rev")
+	clear(phylogeny)
+
+
+	## POSTERIOR PREDICTIVE MCMC
+
+	#analysis_name = "pps"
+	#inFile = "../data/JC_16_taxa_nSites_100_bl_0.1/simData_" + i + ".nex"
+	#data <- readDiscreteCharacterData(inFile)
+	#model_name = "JC"
+	#model_file_name = "pps_"+model_name+"_Model.Rev"
+	source("pps_PosteriorPredictive_MCMC.Rev")
+
+
+	## CALCULATE DATA SUMMARY STATISTICS
+
+	#analysis_name = "pps"
+	#model_name = "JC"
+	#model_file_name = "pps_"+model_name+"_Model.Rev"
+	num_post_sims = listFiles(path="../output/" + analysis_name +"_"+ 1 + "_post_sims").size()
+	#data <- readDiscreteCharacterData(inFile)
+	source("pps_DataSummary.Rev")
+
+
+	## CALCULATE INFERENCE SUMMARY STATISTICS
+
+	#num_post_sims = listFiles(path="../output/" + analysis_name +"_"+ 1 + "_post_sims").size()
+	#data <- readDiscreteCharacterData(inFile)
+	source("pps_InfSummary.Rev")
+
+
+	## CALCULATE DATA P-VALUES
+
+	#analysis_name = "pps"
+	#model_name = "JC"
+	emp_pps_file = "../results_" + model_name + "/empirical_data_" + analysis_name + "_" + i + ".csv"
+	sim_pps_file = "../results_" + model_name + "/simulated_data_" + analysis_name + "_" + i + ".csv"
+	outfileName = "../results_" + model_name + "/data_pvalues_effectsizes_" + analysis_name + "_" + i + ".csv"
+	statID = v("Number Invariant Sites", "Number Invariant Sites Excluding Ambiguous", "Max GC", "Max GC Excluding Ambiguous", "Max Invariant Block Length", "Max Invariant Block Length Excluding Ambiguous", "Max Pairwise Difference", "Max Pairwise Difference Excluding Ambiguous", "Max Variable Block Length", "Max Variable Block Length Excluding Ambiguous", "Min GC", "Min GC Excluding Ambiguous", "Min Pairwise Difference", "Min Pairwise Difference Excluding Ambiguous", "Number Invariable Block", "Number Invariable Block Excluding Ambiguous", "Mean GC", "Mean GC Excluding Ambiguous", "Mean GC 1", "Mean GC 1 Excluding Ambiguous", "Mean GC 2", "Mean GC 2 Excluding Ambiguous", "Mean GC 3", "Mean GC 3 Excluding Ambiguous", "Var GC", "Var GC Excluding Ambiguous", "Var GC 1", "Var GC 1 Excluding Ambiguous", "Var GC 2", "Var GC 2 Excluding Ambiguous", "Var GC 3", "Var GC 3 Excluding Ambiguous", "Theta", "Tajima-D", "Tajima-Pi", "Segregating-Sites", "Multinomial Likelihood")
+	source("pps_PValues.Rev")
+
+
+	## CALCULATE INFERENCE P-VALUES
+
+	emp_pps_file = "../results_" + model_name + "/empirical_inference_" + analysis_name + "_" + i + ".csv"
+	sim_pps_file = "../results_" + model_name + "/simulated_inference_" + analysis_name + "_" + i + ".csv"
+	outfileName = "../results_" + model_name + "/inference_pvalues_effectsizes_" + analysis_name + "_" + i + ".csv"
+	statID = v("", "mean_rf", "quantile25", "quantile50", "quantile75", "quantile99", "quantile999", "mean_tl", "var_tl", "entropy")
+	source("pps_inf_PValues.Rev")
+
+}
+
+
+# END IT ALL
+q()

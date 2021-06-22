@@ -1,0 +1,18 @@
+source( model_file_name )
+
+monitors = VectorMonitors()
+
+monitors.append( mnModel(filename="../output/" + analysis_name + "_" + i + "_posterior.log",printgen=10, separator = TAB) )
+monitors.append( mnFile(filename="../output/" + analysis_name + "_" + i + "_posterior.trees",printgen=10, separator = TAB, phylogeny) )
+
+## now we setup our MCMC object for each posterior predictive dataset
+mymcmc = mcmc(mymodel, monitors, moves, nruns=1)
+
+## specify and output directory for each analysis
+directory = "../output/" + analysis_name + "_" + i + "_post_sims/"
+
+## specify a new pps_mcmc object for all of the independent analyses
+my_pps_mcmc = posteriorPredictiveAnalysis(mymcmc, directory)
+
+## run the actual analyses
+my_pps_mcmc.run(generations=10000)

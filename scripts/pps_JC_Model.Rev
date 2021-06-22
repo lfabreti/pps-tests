@@ -1,0 +1,47 @@
+#######################
+# Reading in the Data #
+#######################
+
+# Get some useful variables from the data. We need these later on.
+n_taxa <- data.ntaxa()
+taxa <- data.taxa()
+n_branches <- 2 * n_taxa - 3
+
+# set my moves vector
+moves = VectorMoves()
+
+
+######################
+# Substitution Model #
+######################
+
+#### specify the Jukes-Cantor substitution model applied uniformly to all sites ###
+Q := fnJC(4) 
+
+
+##############
+# Tree model #
+##############
+
+source("pps_tree_model.Rev")
+
+
+###################
+# PhyloCTMC Model #
+###################
+
+
+# the sequence evolution model
+seq ~ dnPhyloCTMC(tree=phylogeny, Q=Q, type="DNA")
+
+# attach the data
+seq.clamp(data)
+
+
+#############
+# THE Model #
+#############
+
+# We define our model.
+# We can use any node of our model as a handle, here we chose to use the rate matrix.
+mymodel = model(Q)

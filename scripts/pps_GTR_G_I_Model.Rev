@@ -1,0 +1,66 @@
+#######################
+# Reading in the Data #
+#######################
+
+n_taxa <- data.ntaxa()
+taxa <- data.taxa()
+n_branches <- 2 * n_taxa - 3
+
+moves    = VectorMoves()
+
+######################
+# Substitution Model #
+######################
+
+#### specify the GTR+G substitution model applied uniformly to all sites ###
+er_prior <- v(1,1,1,1,1,1)
+er ~ dnDirichlet(er_prior)
+
+moves.append(mvSimplexElementScale(er,weight=3))
+
+
+pi_prior <- v(1,1,1,1) 
+pi ~ dnDirichlet(pi_prior)
+
+moves.append(mvSimplexElementScale(pi,weight=2))
+
+
+#### create a deterministic variable for the rate matrix ####
+Q := fnGTR(er,pi) 
+
+# Among Site Rate Variation #
+
+alpha_prior <- 0.05
+alpha ~ dnExponential( alpha_prior )
+gamma_rates := fnDiscretizeGamma( alpha, alpha, 4, false )
+
+# the probability of a site being invariable #
+pinvar ~ dnBeta(10,20)  
+
+
+##############
+# Tree model #
+##############
+
+source(tree_model)
+
+
+###################
+# PhyloCTMC Model #
+###################
+
+
+# the sequence evolution model
+seq ~ dnPhyloCTMC(tree=phylogeny, Q=Q, siteRates=gamma_rates, pInv=pinvar, type="DNA")
+
+# attach the data
+seq.clamp(data)
+
+
+#############
+# THE Model #
+#############
+
+# We define our model.
+# We can use any node of our model as a handle, here we chose to use the rate matrix.
+mymodel = model(Q)

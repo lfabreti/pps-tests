@@ -1,0 +1,10 @@
+source( model_file_name )
+
+# "Reading Trace"
+trace = readStochasticVariableTrace("../output/" + analysis_name + "_" + i + "_posterior.var", delimiter=TAB)
+
+# "Creating Posterior Predictive Simulation"
+pps = posteriorPredictiveSimulation(mymodel, directory = "../output/" + analysis_name + "_" + i + "_post_sims", trace)
+
+# "Running the posterior predictive simulation"
+pps.run(thinning=2)

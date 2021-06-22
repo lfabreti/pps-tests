@@ -1,0 +1,14 @@
+source( model_file_name )
+
+
+monitors = VectorMonitors()
+
+monitors.append( mnModel(filename = "../output/" + analysis_name + "_" + i + "_posterior.log",printgen=10, separator = TAB) )
+monitors.append( mnFile(filename = "../output/" + analysis_name + "_" + i + "_posterior.trees",printgen=10, separator = TAB, phylogeny) )
+monitors.append( mnScreen(printgen=1000, TL) )
+monitors.append( mnStochasticVariable(filename = "../output/" + analysis_name + "_" + i + "_posterior.var",printgen=10) )
+
+
+mymcmc = mcmc(mymodel, monitors, moves, nruns=1, combine="mixed")
+#mymcmc.burnin(generations=200,tuningInterval=200)
+mymcmc.run(generations=2000)

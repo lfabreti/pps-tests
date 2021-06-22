@@ -1,0 +1,49 @@
+numSims <- 10
+bl_mean <- [10, 50]
+n_sites <- [100, 1000]
+n_species <- 16
+
+names = [taxon("t001")]
+for (i in 2:n_species) names.append( taxon("t"+ifelse(i < 10, "00"+i, ifelse(i < 100, "0"+i,i))) )
+
+n_branches <- 2 * n_species - 3
+
+for (j in 1:numSims) {
+  
+  for (bl in 1:2){
+    for (site in 1:2){
+      
+	  # Substitution model #
+
+	  pi_prior <- v(1,1,1,1) 
+	  pi ~ dnDirichlet(pi_prior)
+
+	  er_prior <- v(1,1,1,1,1,1)
+	  er ~ dnDirichlet(er_prior)
+
+	  Q := fnGTR(er,pi)
+
+	  # Among Site Rate Variation #
+
+	  alpha_prior <- 0.05
+	  alpha ~ dnExponential( alpha_prior )
+	  gamma_rates := fnDiscretizeGamma( alpha, alpha, 4, false )
+
+	  # the probability of a site being invariable #
+	  pinvar ~ dnBeta(10,20)      
+
+      topology ~ dnUniformTopology(names)
+      for (i in 1:n_branches) {
+        br_lens[i] ~ dnExponential(bl_mean[bl])
+      }
+      phylogeny := treeAssembly(topology, br_lens)
+      write(phylogeny,filename="GTR_"+n_species+"_taxa_nSites_"+n_sites[site]+"_bl_"+(1/bl_mean[bl])+"_10k/simTree"+j+".tre")
+      seq ~ dnPhyloCTMC(tree=phylogeny, Q=Q, type="DNA", nSites=n_sites[site])
+      writeNexus("GTR_"+n_species+"_taxa_nSites_"+n_sites[site]+"_bl_"+(1/bl_mean[bl])+"_10k/simData_" + j + ".nex",seq)
+      clear(topology)
+      
+    }
+  }
+}
+
+quit()

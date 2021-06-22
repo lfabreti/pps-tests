@@ -1,0 +1,14 @@
+# blacklisted files
+
+# do not include the RevBayes and R history 
+*history.txt
+*Rhistory
+
+# do not include the simulated data
+data/
+
+# do not include the output from the analyses
+output/
+
+# do not include results
+results*

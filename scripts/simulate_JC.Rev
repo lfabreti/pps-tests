@@ -1,0 +1,30 @@
+# Define number of simulated data, number of taxa, number of sites and mean branch length
+numSims <- 10
+n_species <- 16
+n_sites <- 100
+bl_mean <- 10
+
+
+names = [taxon("t001")]
+for (i in 2:n_species) names.append( taxon("t"+ifelse(i < 10, "00"+i, ifelse(i < 100, "0"+i,i))) )
+
+n_branches <- 2 * n_species - 3
+
+Q := fnJC(4)
+
+for (j in 1:numSims) {
+
+		topology ~ dnUniformTopology(names)
+		for (i in 1:n_branches) {
+  			br_lens[i] ~ dnExponential(bl_mean)
+		}
+		phylogeny := treeAssembly(topology, br_lens)
+		write(phylogeny,filename="../data/JC_"+n_species+"_taxa_nSites_"+n_sites+"_bl_"+(1/bl_mean)+"/simTree_"+j+".tre")
+		seq ~ dnPhyloCTMC(tree=phylogeny, Q=Q, type="DNA", nSites=n_sites)
+		writeNexus("../data/JC_"+n_species+"_taxa_nSites_"+n_sites+"_bl_"+(1/bl_mean)+"/simData_" + j + ".nex",seq)
+		clear(topology)
+
+
+}
+
+quit()
