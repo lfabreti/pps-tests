@@ -1,9 +1,11 @@
 Posterior Predictive Tests for Bayesian Phylogenetics
 ==========================
 
-This is the repository for the scripts used in the paper `The Expected Behavior of Posterior Predictive Tests May Be Unexpected]{The Expected Behavior of Posterior Predictive Tests May Be Unexpected`.
+This is the repository for the scripts used in the paper `The Expected Behavior of Posterior Predictive Tests May Be Unexpected`.
 
-We prepared a small example of the Posterior Predictive Simulation test. The number of simulation settings, MCMC iterations and replicates were reduced to allow the full pipeline to run in a regular computer within reasonable time. Note that the plots produced by this tutorial should not be representative of the full study.
+We prepared a brief example of the Posterior Predictive Simulation test. 
+The number of simulation settings, MCMC iterations and replicates were reduced to allow the full pipeline to run in a regular computer within reasonable time. Note that the plots produced by this tutorial should not be representative of the full study.
+
 To reproduce the method, follow the steps in this tutorial.
 
 
@@ -39,6 +41,8 @@ The last step is to calculate the p-values for each summary statistic.
 Plotting the Histograms
 =================
 
+To plot the histograms for the data-based analysis, run the R script `pValuePlots_data.R`. 
+For the inference-based analysis, use the script `pValuePlots_inference.R`.
 
 Different settings for the analysis
 =================
@@ -58,6 +62,9 @@ In this small tutorial we taught the basic steps to run the full analysis. Now w
 3. Changing the MCMC settings for the empirical MCMC
 
 	The changes on the MCMC settings should be done on the script `pps_MCMC_Simulation.Rev`. 
+	
+
+
 
 	   
 

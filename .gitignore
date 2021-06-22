@@ -12,3 +12,6 @@ output/
 
 # do not include results
 results*
+
+# do not include histograms
+histograms*

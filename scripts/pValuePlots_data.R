@@ -7,7 +7,6 @@ dirs <- "results_JC"
 
 setwd(dirs)
 
-
 # Create vectors to hold p-values lower 1-tailed
 numInvSites_low <- vector(mode="numeric",length=n_rep)
 maxGC_low <- vector(mode="numeric",length=n_rep)
@@ -246,9 +245,9 @@ for (file_name in list_files){
 }
 
 setwd("..")
-dir.create("../histograms")	
+dir.create("histograms_data")	
 
-pdf(file="histograms/lower1-tailed_hist.pdf")
+pdf(file="histograms_data/lower1-tailed_hist.pdf")
 hist(numInvSites_low,col="grey",breaks=20)
 hist(maxGC_low,col="grey",breaks=20)
 hist(maxInvBlock_low,col="grey",breaks=20)
@@ -270,7 +269,7 @@ hist(segSites_low,col="grey",breaks=20)
 hist(multiLike_low,col="grey",breaks=20)
 dev.off()
 
-pdf(file="histograms/upper-tailed_hist.pdf")
+pdf(file="histograms_data/upper-tailed_hist.pdf")
 hist(numInvSites_up,col="grey",breaks=20)
 hist(maxGC_up,col="grey",breaks=20)
 hist(maxInvBlock_up,col="grey",breaks=20)
@@ -292,7 +291,7 @@ hist(segSites_up,col="grey",breaks=20)
 hist(multiLike_up,col="grey",breaks=20)
 dev.off()
 
-pdf(file="histograms/two-tailed_hist.pdf")
+pdf(file="histograms_data/two-tailed_hist.pdf")
 hist(numInvSites_two,col="grey",breaks=20)
 hist(maxGC_two,col="grey",breaks=20)
 hist(maxInvBlock_two,col="grey",breaks=20)
@@ -314,7 +313,7 @@ hist(segSites_two,col="grey",breaks=20)
 hist(multiLike_two,col="grey",breaks=20)
 dev.off()
 
-pdf(file="histograms/midpoint_hist.pdf")
+pdf(file="histograms_data/midpoint_hist.pdf")
 hist(numInvSites_mid,col="grey",breaks=20)
 hist(maxGC_mid,col="grey",breaks=20)
 hist(maxInvBlock_mid,col="grey",breaks=20)
@@ -336,7 +335,7 @@ hist(segSites_mid,col="grey",breaks=20)
 hist(multiLike_mid,col="grey",breaks=20)
 dev.off()
 
-pdf(file="histograms/effect_size_hist.pdf")
+pdf(file="histograms_data/effect_size_hist.pdf")
 hist(numInvSites_eff,col="grey",breaks=20)
 hist(maxGC_eff,col="grey",breaks=20)
 hist(maxInvBlock_eff,col="grey",breaks=20)
@@ -357,6 +356,3 @@ hist(tajPi_eff,col="grey",breaks=20)
 hist(segSites_eff,col="grey",breaks=20)
 hist(multiLike_eff,col="grey",breaks=20)
 dev.off()
-
-setwd("..")
-
